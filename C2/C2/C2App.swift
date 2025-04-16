@@ -12,7 +12,7 @@ import SwiftData
 struct C2App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            menuView()
         }
         .modelContainer(for: Recs.self)
     }

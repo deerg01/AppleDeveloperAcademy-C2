@@ -18,7 +18,7 @@ class Recs {
     var level: Float
     var isDel: Bool = false // is deleted? (moved to trash?)
 
-    init(category: String, title: String, content: String = "", level: Float = 0.0) {
+    init(category: String, title: String, content: String, level: Float = 5.0, isDel: Bool = false) {
         self.category = category
         self.title = title
         self.content = content
@@ -26,4 +26,5 @@ class Recs {
         self.isDel = false
     }
 }
+
 

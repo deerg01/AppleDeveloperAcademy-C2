@@ -12,6 +12,8 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var recs: [Recs]
     
+    @State private var isShowingSheet = false
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
@@ -19,12 +21,18 @@ struct ContentView: View {
                     .bold()
                     .padding(.bottom, 28)
                 NavigationLink("Write") {
-                    writeView()
+                    _writeView()
                 }
                 Divider()
                 
                 NavigationLink("List") {
-                    ListView()
+                    _listView()
+                }
+                
+                Divider()
+                
+                NavigationLink("prototype"){
+                    menuView()
                 }
             }
             .padding()
@@ -38,10 +46,8 @@ struct ContentView: View {
             NavigationLink("휴지통") {
                 delView()
             }
-            .padding(.top, 7)
+            .padding(.all, 7)
             .foregroundColor(.pink)
-            
-
             
         }
         .onAppear {

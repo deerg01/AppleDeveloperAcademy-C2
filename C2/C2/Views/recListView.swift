@@ -18,11 +18,13 @@ struct recListView: View {
 
     var body: some View {
         List(recs) { rec in
+            
             Text(rec.title)
 
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     Button(role: .destructive) {
-                        if let index = recs.firstIndex(where: { $0.id == rec.id }) {
+                        // 대 발 견 !! 무려 id없이도 냅다 rec로 불러내서 비교해도 @Modal이 자동으로 id감별해줌티비
+                        if let index = recs.firstIndex(where: { $0 === rec }) {
                                     recs[index].isDel = true
                                 }
                     } label: {
@@ -38,10 +40,11 @@ struct recListView: View {
                     .tint(.blue)
                 }
                 .sheet(item: $editingRec) { rec in
-                    EditView(rec: rec)
+                    editView(rec: rec)
                 }
         }
         .navigationTitle(category.name)
+        .navigationBarTitleDisplayMode(.inline)
         
     }
     
@@ -50,6 +53,6 @@ struct recListView: View {
 }
 
 #Preview {
-    ListView()
+    listView()
         .modelContainer(for: Recs.self)
 }

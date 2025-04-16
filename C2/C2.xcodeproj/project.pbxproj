@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		267DF4CD2DAD4139000CCAD6 /* alertEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267DF4CC2DAD4139000CCAD6 /* alertEditView.swift */; };
+		267DF4D12DAE14AE000CCAD6 /* dataModView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267DF4D02DAE14AE000CCAD6 /* dataModView.swift */; };
+		26957AFB2DA810B500C841D4 /* newListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26957AFA2DA810B500C841D4 /* newListView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		26957A292DA53E4700C841D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,9 +30,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		267DF4CC2DAD4139000CCAD6 /* alertEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alertEditView.swift; sourceTree = "<group>"; };
+		267DF4D02DAE14AE000CCAD6 /* dataModView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataModView.swift; sourceTree = "<group>"; };
 		26957A182DA53E4600C841D4 /* C2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = C2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26957A282DA53E4700C841D4 /* C2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = C2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		26957A322DA53E4700C841D4 /* C2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = C2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		26957AFA2DA810B500C841D4 /* newListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +84,9 @@
 		26957A0F2DA53E4600C841D4 = {
 			isa = PBXGroup;
 			children = (
+				267DF4D02DAE14AE000CCAD6 /* dataModView.swift */,
+				267DF4CC2DAD4139000CCAD6 /* alertEditView.swift */,
+				26957AFA2DA810B500C841D4 /* newListView.swift */,
 				26957A1A2DA53E4600C841D4 /* C2 */,
 				26957A2B2DA53E4700C841D4 /* C2Tests */,
 				26957A352DA53E4700C841D4 /* C2UITests */,
@@ -170,6 +182,9 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				KnownAssetTags = (
+					New,
+				);
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
@@ -236,6 +251,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26957AFB2DA810B500C841D4 /* newListView.swift in Sources */,
+				267DF4D12DAE14AE000CCAD6 /* dataModView.swift in Sources */,
+				267DF4CD2DAD4139000CCAD6 /* alertEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
