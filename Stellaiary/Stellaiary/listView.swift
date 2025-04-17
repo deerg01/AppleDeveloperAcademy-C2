@@ -59,12 +59,6 @@ struct listView: View {
                             }
                         }
                     }
-//                    .onDelete { indexSet in
-//                        for index in indexSet {
-//                            let category = Cats.sortCats(cats: cats)[index]
-//                            delCat(category)
-//                        }
-//                    }
                     
                     if !isEditing {  // category add button
                         ZStack {  // button on navigation link. 어차피 투명화로 배경 날릴거니까 밑부분 더럽게 잘린건 무시..

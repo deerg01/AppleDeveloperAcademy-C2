@@ -14,7 +14,7 @@ struct ContentView: View {
     @Query private var cats: [Cats]
 
     var body: some View {
-        //NavigationStack { // starView만들어야하는데.....
+        //NavigationStack { // starView만들어야하는
         ZStack {
             LinearGradient(  // background
                 stops: [
@@ -33,11 +33,11 @@ struct ContentView: View {
             .ignoresSafeArea()
 
             controlbox()
-        }
         //}
-//        .onAppear {
-//            defaultCats()
-//        }
+        }
+        .onAppear {
+            defaultCats()
+        }
     }
 
     func defaultCats() {
@@ -49,6 +49,7 @@ struct ContentView: View {
             Cats(name: "건강", color: ".picGreen"),
             Cats(name: "교류", color: ".picRed"),
             Cats(name: "기타", color: ".picYellow"),
+            
             Cats(name: "지울 항목", color: ".picYellow"),
         ]
         defaults.forEach { modelContext.insert($0) }

@@ -18,14 +18,14 @@ struct controlbox: View {
     var body: some View {
         VStack {
             Spacer()
-            
+
             RoundedRectangle(cornerRadius: 25, style: .continuous)
                 .fill(.ultraThinMaterial)
-                .frame(height: 565)
+                .frame(height: 400)
                 .overlay(
                     NavigationStack {
-                        VStack(spacing: 16) {
-                            
+                        VStack(spacing: 20) {
+
                             NavigationLink(destination: writeView()) {
                                 HStack {
                                     Text("새 도전 작성하기")
@@ -45,9 +45,18 @@ struct controlbox: View {
                                 }
                                 .foregroundColor(.blue)
                             }
+
                             Divider()
 
-                            
+                            NavigationLink(destination: delView()) {
+                                HStack {
+                                    Text("쓰레기통")
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .foregroundColor(.blue)
+                            }
+
                         }
                         .padding(.horizontal)
                         .padding(.horizontal, 30)
@@ -58,7 +67,7 @@ struct controlbox: View {
                 .padding(.horizontal, 24)
                 .shadow(radius: 10)
                 .offset(x: dragOffset.width)
-            
+
             Spacer()
 
         }

@@ -89,7 +89,7 @@ struct writeView: View {
                 }
 
                 Button(action: {
-                    if titleInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || selectedCat == nil {
+                    if titleInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         showAlert = true
                         return
                     }
@@ -121,7 +121,7 @@ struct writeView: View {
             .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
-        .alert("제목과 주제를 모두 입력해주세요", isPresented: $showAlert) {
+        .alert("제목을 입력해주세요", isPresented: $showAlert) {
             Button("확인", role: .cancel) { }
         }
         .background(Color.clear)

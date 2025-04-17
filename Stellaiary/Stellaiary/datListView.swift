@@ -18,7 +18,8 @@ struct datListView: View {
     let dats: [Dats]
 
     var body: some View {
-        List(dats) { dat in
+        //List(dats) { dat in
+        List(dats.filter { !$0.isDel }) { dat in
             
             Text(dat.title)
 

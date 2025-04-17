@@ -28,6 +28,7 @@ struct catAddView: View {
                         .background(.ultraThinMaterial)
                         .cornerRadius(10)
                         .foregroundColor(.white)
+
                 }
 
                 Divider()
@@ -62,17 +63,20 @@ struct catAddView: View {
                 Button("확인", role: .cancel) {}
             }
         }
+        .padding()
     }
 }
 
 struct catModView: View {
-    @Bindable var cat: Cats
     @Environment(\.dismiss) private var dismiss
     @Query private var cats: [Cats]
-    
+    @Bindable var cat: Cats
+
     @State private var titleInput: String = ""
     @State private var selectedColor: String = ""
     @State private var showDupAlert = false
+
+    private var isOther: Bool { cat.name == "기타" }
 
     var body: some View {
         NavigationStack {
@@ -80,11 +84,24 @@ struct catModView: View {
                 HStack {
                     Text("도전 주제: ")
 
-                    TextField("이름 수정", text: $titleInput)
+                    if isOther {
+                        HStack {
+                            Text("기타")
+                            Image(systemName: "lock.fill")
+                        }
                         .padding(8)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .background(.ultraThinMaterial)
                         .cornerRadius(10)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
+
+                    } else {
+                        TextField("파이팅! 목표를 설정해바요", text: $titleInput)
+                            .padding(8)
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(10)
+                            .foregroundColor(.black)
+                    }
                 }
 
                 Divider()
@@ -97,7 +114,10 @@ struct catModView: View {
                 colorPicker(selectedColor: $selectedColor)
                     .onAppear {
                         titleInput = cat.name
-                        selectedColor = cat.color.replacingOccurrences(of: ".", with: "")
+                        selectedColor = cat.color.replacingOccurrences(
+                            of: ".",
+                            with: ""
+                        )
                     }
             }
             .padding()
@@ -123,5 +143,6 @@ struct catModView: View {
                 Button("확인", role: .cancel) {}
             }
         }
+        .padding()
     }
 }
