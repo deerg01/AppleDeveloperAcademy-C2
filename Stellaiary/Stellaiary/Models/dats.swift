@@ -15,12 +15,14 @@ class Dats {
     var content: String
     var level: Float
     var isDel: Bool = false // is deleted? (moved to trash?)
+    var date: Date
 
-    init(category: String, title: String, content: String, level: Float = 5.0, isDel: Bool = false) {
+    init(category: String, title: String, content: String, level: Float = 5.0, isDel: Bool = false, date: Date = Date()) {
         self.category = category
         self.title = title
         self.content = content
         self.level = level
         self.isDel = false
+        self.date = date
     }
 }

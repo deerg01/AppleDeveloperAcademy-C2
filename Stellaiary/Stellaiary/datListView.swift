@@ -41,10 +41,10 @@ struct datListView: View {
                     .tint(.blue)
                 }
                 .sheet(item: $editingRec) { dat in
-                    //editView(dat: dat)
+                    editView(dat: dat)
                 }
         }
-        //.navigationTitle(category.name)
+        .navigationTitle(category)
         .navigationBarTitleDisplayMode(.inline)
         
     }
