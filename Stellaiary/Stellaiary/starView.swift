@@ -91,6 +91,10 @@ struct starView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
+                
+                Text("헬로 월드!")
+                    .font(.custom("IM Hyemin-Regular", size: 37))
+                
                 // max 30 contents
                 ForEach(Array(dats.filter { !$0.isDel }.prefix(30).enumerated()), id: \ .offset) { index, dat in
                     let color = colorForCategory(dat.category)

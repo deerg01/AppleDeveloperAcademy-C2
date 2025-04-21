@@ -34,7 +34,7 @@ struct ContentView: View {
 
             TabView {  // TCA architecture:: capture user interaction and set/update effects
                        // 아니 근데 이렇게 하니까 스와이프액션이 다 씹히잖아 ;;;
-                controlbox()
+                controlbox_()
                     .tag(0)
 
                 starView()

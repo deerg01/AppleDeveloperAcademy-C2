@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 import SwiftUIIntrospect
 
-struct controlbox: View {
+struct controlbox_: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var dats: [Dats]
     @Query private var cats: [Cats]
@@ -65,11 +65,8 @@ struct controlbox: View {
                         .padding(.horizontal, 30)
                         .padding(.vertical, 20)
                     }
-                    .background(Color.clear)
-                    .introspect(.navigationStack, on: .iOS(.v16, .v17)) {
-                        navController in
-                        navController.view.backgroundColor = .clear
-                    }
+                
+
                     // stack의 background 어떻게 날려버릴 수 있을까...
                 )
                 .padding(.horizontal, 24)
@@ -82,5 +79,5 @@ struct controlbox: View {
 }
 
 #Preview {
-    controlbox()
+    controlbox_()
 }

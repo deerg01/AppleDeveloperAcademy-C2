@@ -49,6 +49,7 @@ struct writeView: View {
 
                 HStack {
                     Text("제목: ")
+                        .font(Font.custom("IM_Hyemin-Bold", size: 18))
                         .font(.headline)
 
                     Spacer()
@@ -148,6 +149,7 @@ extension View { // UIKit에서 땡겨와서 사요
             to: nil, from: nil, for: nil
         )
     }
+    
 }
 
 #Preview {
