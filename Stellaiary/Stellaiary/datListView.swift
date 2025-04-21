@@ -1,60 +1,90 @@
-////
-////  datListView.swift
-////  Stellaiary
-////
-////  Created by POS on 4/17/25.
-////
-//// see all the records in category
-//// need to make :: deleting,
+//
+//  datListView.swift
+//  Stellaiary
+//
+//  Created by POS on 4/17/25.
+//
 
 import SwiftUI
 
 struct datListView: View {
-    @State private var actionTitle: String? = nil
-    @State private var editingRec: Dats? = nil
-    
-    
+    @Environment(\.modelContext) private var modelContext
+
     let category: String
     let dats: [Dats]
 
+    @State private var isEditing = false
+    @State private var datToDelete: Dats? = nil
+    @State private var selectedDat: Dats? = nil
+    @State private var toEdit = false
+
     var body: some View {
-        //List(dats) { dat in
-        List(dats.filter { !$0.isDel }) { dat in
-            
-            Text(dat.title)
-
-                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                    Button(role: .destructive) {
-                        // 대 발 견 !! 무려 id없이도 냅다 rec로 불러내서 비교해도 @Modal이 자동으로 id감별해줌티비
-                        if let index = dats.firstIndex(where: { $0 === dat }) {
-                                    dats[index].isDel = true
-                                }
-                    } label: {
-                        Label("Trash", systemImage: "trash")
+        List {
+            ForEach(dats.filter { !$0.isDel }) { dat in
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(dat.title)
+                            .font(.headline)
+                        Text(dat.date.formatted(date: .abbreviated, time: .omitted))
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
                     }
-                    .tint(.red)
 
-                    Button {
-                        editingRec = dat
-                    } label: {
-                        Label("Edit", systemImage: "pencil.line")
+                    Spacer()
+
+                    if isEditing {
+                        Button {
+                            datToDelete = dat
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                        }
+                        .buttonStyle(.borderless) // 이거 없으면 Button과 Cell 선택이 중복인식됨
                     }
-                    .tint(.blue)
                 }
-                .sheet(item: $editingRec) { dat in
-                    editView(dat: dat)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    if !isEditing {
+                        selectedDat = dat
+                        toEdit = true
+                    }
                 }
+            }
         }
+        .alert(item: $datToDelete) { dat in
+            Alert(
+                title: Text("삭제하시겠습니까?"),
+                primaryButton: .destructive(Text("삭제")) {
+                    if let index = dats.firstIndex(where: { $0 === dat }) {
+                        dats[index].isDel = true
+                    }
+                },
+                secondaryButton: .cancel {
+                    datToDelete = nil
+                }
+            )
+        }
+        .background(
+            NavigationLink(
+                destination: selectedDat.map { editView(dat: $0) },
+                isActive: $toEdit,
+                label: { EmptyView() }
+            )
+            .hidden()
+        )
         .navigationTitle(category)
         .navigationBarTitleDisplayMode(.inline)
-        
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button(isEditing ? "완료" : "편집") {
+                    withAnimation {
+                        isEditing.toggle()
+                    }
+                }
+            }
+        }
     }
-    
-    
-
 }
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Dats.self)
-}
+
+

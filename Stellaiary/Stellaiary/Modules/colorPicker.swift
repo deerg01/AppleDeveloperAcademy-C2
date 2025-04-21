@@ -10,29 +10,23 @@ import SwiftUI
 struct colorPicker: View {
     @Binding var selectedColor: String
 
-    let colors: [Color] = [
+    let colors: [Color] = [ // 7개가 max
         .picSkyblue,
         .picBlue,
-        .purple,
         .picPink,
         .picRed,
-        .picSalmon,
         .picOrange,
         .picYellow,
-        .picOlive,
         .picGreen,
     ]
 
     let colorNames: [String] = [
         "picSkyblue",
         "picBlue",
-        "purple",
         "picPink",
         "picRed",
-        "picSalmon",
         "picOrange",
         "picYellow",
-        "picOlive",
         "picGreen",
     ]
 
@@ -45,7 +39,7 @@ struct colorPicker: View {
                     } label: {
                         Rectangle()
                             .fill(colors[index])
-                            .frame(width: 35, height: 35)
+                            .frame(width: 41, height: 41)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 0)
                                     .stroke(

@@ -19,20 +19,12 @@ class Cats {  //categories
         self.color = color
     }
 
-//    static func sortCats(cats: [Cats]) -> [Cats] {
-//        return cats.sorted {
-//            $0.name == "기타" ? false : ($1.name == "기타" ? true : true)
-//        }
-//    }
+
     static func sortCats(cats: [Cats]) -> [Cats] {
         return cats.sorted {
             // "Others" always below
-            if $0.name == "기타" {
-                return false
-            }
-            if $1.name == "기타" {
-                return true
-            }
+            if $0.name == "기타" { return false }
+            if $1.name == "기타" { return true }
             
             // alphabet order
             return $0.name < $1.name

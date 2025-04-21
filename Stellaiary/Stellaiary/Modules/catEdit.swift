@@ -18,52 +18,48 @@ struct catAddView: View {
     @State private var showDupAlert = false
 
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 20) {
-                HStack {
-                    Text("도전 주제: ")
+        VStack(spacing: 20) {
+            HStack {
+                Text("도전 주제: ")
 
-                    TextField("파이팅! 목표를 설정해바요", text: $titleInput)
-                        .padding(8)
-                        .background(.ultraThinMaterial)
-                        .cornerRadius(10)
-                        .foregroundColor(.white)
-
-                }
-
-                Divider()
-
-                HStack {
-                    Text("색상: ")
-                    Spacer()
-                }
-
-                colorPicker(selectedColor: $selectedColor)
+                TextField("파이팅! 목표를 설정해바요", text: $titleInput)
+                    .padding(8)
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(10)
+                    .foregroundColor(.white)
             }
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("추가") {
-                        if cats.contains(where: { $0.name == titleInput }) {
-                            showDupAlert = true
-                        } else {
-                            let newCat = Cats(
-                                name: titleInput,
-                                color: "." + selectedColor
-                            )
-                            modelContext.insert(newCat)
-                            dismiss()
-                        }
-                    }
-                    .tint(.blue)
-                    .disabled(titleInput.isEmpty)
-                }
+
+            Divider()
+
+            HStack {
+                Text("색상: ")
+                Spacer()
             }
-            .alert("이미 존재하는 주제입니다", isPresented: $showDupAlert) {
-                Button("확인", role: .cancel) {}
-            }
+
+            colorPicker(selectedColor: $selectedColor)
         }
         .padding()
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("추가") {
+                    if cats.contains(where: { $0.name == titleInput }) {
+                        showDupAlert = true
+                    } else {
+                        let newCat = Cats(
+                            name: titleInput,
+                            color: "." + selectedColor
+                        )
+                        modelContext.insert(newCat)
+                        dismiss()
+                    }
+                }
+                .tint(.blue)
+                .disabled(titleInput.isEmpty)
+            }
+        }
+        .alert("이미 존재하는 주제입니다", isPresented: $showDupAlert) {
+            Button("확인", role: .cancel) {}
+        }
     }
 }
 
@@ -79,70 +75,65 @@ struct catModView: View {
     private var isOther: Bool { cat.name == "기타" }
 
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 20) {
-                HStack {
-                    Text("도전 주제: ")
+        VStack(spacing: 20) {
+            HStack {
+                Text("도전 주제: ")
 
-                    if isOther {
-                        HStack {
-                            Text("기타")
-                            Image(systemName: "lock.fill")
-                        }
+                if isOther {
+                    HStack {
+                        Text("기타")
+                        Image(systemName: "lock.fill")
+                    }
+                    .padding(8)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(10)
+                    .foregroundColor(.black)
+
+                } else {
+                    TextField("파이팅! 목표를 설정해바요", text: $titleInput)
                         .padding(8)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                         .background(.ultraThinMaterial)
                         .cornerRadius(10)
                         .foregroundColor(.black)
-
-                    } else {
-                        TextField("파이팅! 목표를 설정해바요", text: $titleInput)
-                            .padding(8)
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(10)
-                            .foregroundColor(.black)
-                    }
-                }
-
-                Divider()
-
-                HStack {
-                    Text("색상: ")
-                    Spacer()
-                }
-
-                colorPicker(selectedColor: $selectedColor)
-                    .onAppear {
-                        titleInput = cat.name
-                        selectedColor = cat.color.replacingOccurrences(
-                            of: ".",
-                            with: ""
-                        )
-                    }
-            }
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("저장") {
-                        let isDuplicate = cats.contains {
-                            $0.name == titleInput && $0.id != cat.id
-                        }
-
-                        if isDuplicate {
-                            showDupAlert = true
-                        } else {
-                            cat.name = titleInput
-                            cat.color = "." + selectedColor
-                            dismiss()
-                        }
-                    }
-                    .tint(.blue)
                 }
             }
-            .alert("이미 존재하는 주제입니다", isPresented: $showDupAlert) {
-                Button("확인", role: .cancel) {}
+
+            Divider()
+
+            HStack {
+                Text("색상: ")
+                Spacer()
             }
+
+            colorPicker(selectedColor: $selectedColor)
         }
         .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .onAppear {
+            titleInput = cat.name
+            selectedColor = cat.color.replacingOccurrences(of: ".", with: "")
+        }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("저장") {
+                    let isDuplicate = cats.contains {
+                        $0.name == titleInput && $0.id != cat.id
+                    }
+
+                    if isDuplicate {
+                        showDupAlert = true
+                    } else {
+                        cat.name = titleInput
+                        cat.color = "." + selectedColor
+                        dismiss()
+                    }
+                }
+                .tint(.blue)
+            }
+        }
+        .alert("이미 존재하는 주제입니다", isPresented: $showDupAlert) {
+            Button("확인", role: .cancel) {}
+        }
     }
 }

@@ -14,27 +14,42 @@ struct delView: View {
 
     @State private var delAlert = false
     @State private var emptAlert = false
+    @State private var selectedDat: Dats? = nil
 
     var body: some View {
         VStack {
             List {
                 ForEach(trashedDats) { dat in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(dat.title)
-                            .font(.headline)
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(dat.title)
+                                .font(.headline)
 
-                        Text(dat.date.formatted(date: .abbreviated, time: .omitted))
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-
-                    }
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        Button {
-                            dat.isDel = false
-                        } label: {
-                            Label("복구", systemImage: "arrow.uturn.backward")
+                            Text(dat.date.formatted(date: .abbreviated, time: .omitted))
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
                         }
-                        .tint(.blue)
+
+                        Spacer()
+
+                        if selectedDat === dat {
+                            Button {
+                                dat.isDel = false
+                                selectedDat = nil
+                            } label: {
+                                Label("복구", systemImage: "arrow.uturn.backward")
+                                    .labelStyle(IconOnlyLabelStyle())
+                            }
+                            .padding(.trailing, 8)
+
+                            .buttonStyle(BorderlessButtonStyle())
+                        }
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation {
+                            selectedDat = (selectedDat === dat) ? nil : dat
+                        }
                     }
                 }
             }

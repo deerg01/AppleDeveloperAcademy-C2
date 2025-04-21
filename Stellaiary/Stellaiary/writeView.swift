@@ -23,13 +23,14 @@ struct writeView: View {
 
     @State private var isEditing = false
     @State private var showAlert = false
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 13) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("도전 주제: ")
-                        .font(.headline)
+                        .font(Font.custom("IM_Hyemin-Bold", size: 18))
+                        //.font(.headline)
 
                     Picker("도전 주제", selection: $selectedCat) {
                         ForEach(cats) { cat in
@@ -42,7 +43,9 @@ struct writeView: View {
                     .background(.ultraThinMaterial)
                     .cornerRadius(10)
                     .tint(Color.sysPpl)
+                    
                 }
+                
 
                 HStack {
                     Text("제목: ")
@@ -53,7 +56,6 @@ struct writeView: View {
                     TextField("제목을 요기요깅", text: $titleInput)
                         .padding(8)
                         .cornerRadius(10)
-                        .foregroundColor(.white)
                 }
 
                 Divider().background(Color.white.opacity(0.3))
@@ -86,6 +88,8 @@ struct writeView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.sysPpl.opacity(0.4), lineWidth: 1)
                         )
+                        
+                        
                 }
 
                 Button(action: {
@@ -118,6 +122,9 @@ struct writeView: View {
                         .cornerRadius(3)
                 }
             }
+            .onTapGesture {
+                  hideKey()
+                }
             .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -131,6 +138,15 @@ struct writeView: View {
                 selectedCat = cats.first(where: { $0.name == "기타" }) ?? cats.first
             }
         }
+    }
+}
+
+extension View { // UIKit에서 땡겨와서 사요
+    func hideKey() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil, from: nil, for: nil
+        )
     }
 }
 

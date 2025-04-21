@@ -21,7 +21,7 @@ struct controlbox: View {
 
             RoundedRectangle(cornerRadius: 25, style: .continuous)
                 .fill(.ultraThinMaterial)
-                .frame(height: 400)
+                .frame(height: 300)
                 .overlay(
                     NavigationStack {
                         VStack(spacing: 20) {
@@ -29,10 +29,12 @@ struct controlbox: View {
                             NavigationLink(destination: writeView()) {
                                 HStack {
                                     Text("새 도전 작성하기")
+
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
                                 .foregroundColor(.blue)
+
                             }
 
                             Divider()
@@ -67,10 +69,9 @@ struct controlbox: View {
                 .padding(.horizontal, 24)
                 .shadow(radius: 10)
                 .offset(x: dragOffset.width)
-
             Spacer()
-
         }
+        .background(Color.clear)
     }
 }
 

@@ -5,6 +5,7 @@
 //  Created by POS on 4/17/25.
 //
 
+import ComposableArchitecture  // need to install package from github
 import SwiftData
 import SwiftUI
 
@@ -14,7 +15,6 @@ struct ContentView: View {
     @Query private var cats: [Cats]
 
     var body: some View {
-        //NavigationStack { // starView만들어야하는
         ZStack {
             LinearGradient(  // background
                 stops: [
@@ -32,8 +32,15 @@ struct ContentView: View {
             )
             .ignoresSafeArea()
 
-            controlbox()
-        //}
+            TabView {  // TCA architecture:: capture user interaction and set/update effects
+                       // 아니 근데 이렇게 하니까 스와이프액션이 다 씹히잖아 ;;;
+                controlbox()
+                    .tag(0)
+
+                starView()
+                    .tag(1)
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         }
         .onAppear {
             defaultCats()
@@ -49,7 +56,7 @@ struct ContentView: View {
             Cats(name: "건강", color: ".picGreen"),
             Cats(name: "교류", color: ".picRed"),
             Cats(name: "기타", color: ".picYellow"),
-            
+
             Cats(name: "지울 항목", color: ".picYellow"),
         ]
         defaults.forEach { modelContext.insert($0) }
