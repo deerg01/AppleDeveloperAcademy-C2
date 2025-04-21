@@ -4,10 +4,10 @@
 //
 //  Created by POS on 4/17/25.
 //
-//  write의 control box height : 565
 
-import SwiftUI
 import SwiftData
+import SwiftUI
+import SwiftUIIntrospect
 
 struct writeView: View {
     @Environment(\.modelContext) private var modelContext
@@ -18,134 +18,176 @@ struct writeView: View {
     @State private var selectedCat: Cats? = nil
     @State private var cttInput: String = ""
     @State private var titleInput: String = ""
-    @State private var sliderValue: Float = 70.0
+    @State private var sliderValue: Double = 0.70
     @State private var wDate: Date = Date()
 
     @State private var isEditing = false
     @State private var showAlert = false
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 13) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("도전 주제: ")
-                        .font(Font.custom("IM_Hyemin-Bold", size: 18))
-                        //.font(.headline)
-
-                    Picker("도전 주제", selection: $selectedCat) {
-                        ForEach(cats) { cat in
-                            Text(cat.name).tag(Optional(cat))
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .padding(.horizontal)
-                    .frame(maxWidth: .infinity)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(10)
-                    .tint(Color.sysPpl)
-                    
-                }
-                
-
-                HStack {
-                    Text("제목: ")
-                        .font(.headline)
-
-                    Spacer()
-
-                    TextField("제목을 요기요깅", text: $titleInput)
-                        .padding(8)
-                        .cornerRadius(10)
-                }
-
+                categoryPicker
+                titleField
                 Divider().background(Color.white.opacity(0.3))
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("성취도: ")
-                        .font(.headline)
-
-                    Slider(
-                        value: $sliderValue,
-                        in: 0...100,
-                        onEditingChanged: { editing in
-                            isEditing = editing
-                        }
-                    )
-                    .tint(Color.sysPpl)
-                }
-
+                levelSlider
                 Divider().background(Color.white.opacity(0.3))
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("메모: ")
-                        .font(.headline)
-
-                    TextEditor(text: $cttInput)
-                        .frame(height: 160)
-                        .padding(8)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.sysPpl.opacity(0.4), lineWidth: 1)
-                        )
-                        
-                        
-                }
-
-                Button(action: {
-                    if titleInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        showAlert = true
-                        return
-                    }
-
-                    let newData = Dats(
-                        category: selectedCat!.name,
-                        title: titleInput,
-                        content: cttInput,
-                        level: sliderValue,
-                        date: wDate
-                    )
-
-                    modelContext.insert(newData)
-
-                    cttInput = ""
-                    titleInput = ""
-                    sliderValue = 70.0
-
-                    dismiss()
-                }) {
-                    Text("저장")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.sysPpl)
-                        .foregroundColor(.white)
-                        .cornerRadius(3)
-                }
+                memoEditor
+                launchButton
             }
             .onTapGesture {
-                  hideKey()
-                }
+                hideKey()
+            }
             .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
-        .alert("제목을 입력해주세요", isPresented: $showAlert) {
-            Button("확인", role: .cancel) { }
+        .alert("어떤 도전을 하셨나요?", isPresented: $showAlert) {
+            Button("확인", role: .cancel) {}
         }
-        .background(Color.clear)
+        .background(
+            Image("paper")
+        )
         .onAppear {
-            // default catrgory sets to "Others"
             if selectedCat == nil {
-                selectedCat = cats.first(where: { $0.name == "기타" }) ?? cats.first
+                selectedCat =
+                    cats.first(where: { $0.name == "기타" }) ?? cats.first
             }
+
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithTransparentBackground()
+            navBarAppearance.backgroundEffect = UIBlurEffect(
+                style: .systemUltraThinMaterial
+            )
+            navBarAppearance.backgroundColor = UIColor.systemBackground
+                .withAlphaComponent(0.25)
+
+            UINavigationBar.appearance().standardAppearance = navBarAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+        }
+        .introspect(.viewController, on: .iOS(.v16, .v17)) { viewController in
+            viewController.view.backgroundColor = .clear
+        }
+    }
+
+    private var categoryPicker: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("도전 주제: ")
+                .font(.custom("IMHyemin-Bold", size: 17))
+
+            Picker("도전 주제", selection: $selectedCat) {
+                ForEach(cats) { cat in
+                    Text(cat.name).tag(Optional(cat))
+                }
+            }
+            .pickerStyle(.menu)
+            .padding(.horizontal)
+            .frame(maxWidth: .infinity)
+            .background(Color(red: 0.87, green: 0.87, blue: 0.87).opacity(0.7))
+            .cornerRadius(10)
+            .tint(.accentColor)
+        }
+    }
+
+    private var titleField: some View {
+        HStack {
+            Text("제목: ")
+                .font(.custom("IMHyemin-Bold", size: 17))
+
+            Spacer()
+
+            TextField("제목을 요기요깅", text: $titleInput)
+                .padding(8)
+                .cornerRadius(10)
+        }
+    }
+
+    private var levelSlider: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("성취도: ")
+                .font(.custom("IMHyemin-Bold", size: 17))
+
+            Slider(
+                value: $sliderValue,
+                in: 0.12...1,
+                onEditingChanged: { editing in
+                    isEditing = editing
+                }
+            )
+            .tint(.accentColor)
+        }
+    }
+
+    private var memoEditor: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("메모: ")
+                .font(.custom("IMHyemin-Bold", size: 17))
+
+            TextEditor(text: $cttInput)
+                .scrollContentBackground(.hidden)
+                .padding(8)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(
+                            Color(red: 0.87, green: 0.87, blue: 0.87).opacity(
+                                0.5
+                            )
+                        )
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.sysPpl.opacity(0.4), lineWidth: 1)
+                )
+                .frame(height: 160)
+        }
+    }
+
+    private var launchButton: some View {
+        Button(action: {
+            if titleInput.trimmingCharacters(in: .whitespacesAndNewlines)
+                .isEmpty
+            {
+                showAlert = true
+                return
+            }
+
+            guard let selectedCat = selectedCat else {
+                showAlert = true
+                return
+            }
+
+            let newData = Dats(
+                category: selectedCat.name,
+                title: titleInput,
+                content: cttInput,
+                level: sliderValue,
+                date: wDate
+            )
+
+            modelContext.insert(newData)
+
+            cttInput = ""
+            titleInput = ""
+            sliderValue = 0.70
+
+            dismiss()
+        }) {
+            Text("Launch!")
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(.sysPpl)
+                .foregroundColor(.white)
+                .cornerRadius(3)
         }
     }
 }
 
-extension View { // UIKit에서 땡겨와서 사요
+extension View {
     func hideKey() {
         UIApplication.shared.sendAction(
             #selector(UIResponder.resignFirstResponder),
-            to: nil, from: nil, for: nil
+            to: nil,
+            from: nil,
+            for: nil
         )
     }
 }

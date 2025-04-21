@@ -22,7 +22,7 @@ struct starr: Shape {
 
             let outerPoint = CGPoint(
                 x: center.x + CGFloat(cos(angle)) * outer,
-                y: center.y + CGFloat(sin(angle)) * outer * 2
+                y: center.y + CGFloat(sin(angle)) * outer * 1.7
             )
 
             let leftAngle = Angle(degrees: angleDeg - 45).radians

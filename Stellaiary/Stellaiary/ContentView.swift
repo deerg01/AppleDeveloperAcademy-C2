@@ -5,7 +5,7 @@
 //  Created by POS on 4/17/25.
 //
 
-import ComposableArchitecture  // need to install package from github
+import ComposableArchitecture
 import SwiftData
 import SwiftUI
 
@@ -16,26 +16,13 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(  // background
-                stops: [
-                    Gradient.Stop(
-                        color: Color(red: 0.14, green: 0.11, blue: 0.3),
-                        location: 0.00
-                    ),
-                    Gradient.Stop(
-                        color: Color(red: 0, green: 0.45, blue: 1),
-                        location: 1.00
-                    ),
-                ],
-                startPoint: UnitPoint(x: 0.5, y: 0.37),
-                endPoint: UnitPoint(x: 0.5, y: 1)
-            )
-            .ignoresSafeArea()
+            BackgroundGradientView()
 
-            TabView {  // TCA architecture:: capture user interaction and set/update effects
-                       // 아니 근데 이렇게 하니까 스와이프액션이 다 씹히잖아 ;;;
-                controlbox()
-                    .tag(0)
+            TabView {
+                ControlBoxWrapper {
+                    controlbox()
+                }
+                .tag(0)
 
                 starView()
                     .tag(1)
@@ -43,11 +30,38 @@ struct ContentView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         }
         .onAppear {
-            defaultCats()
+            Cats.initDefaultsIfNeeded(in: modelContext, existing: cats)
         }
     }
+}
 
-    func defaultCats() {
+struct BackgroundGradientView: View {
+    var body: some View {
+        LinearGradient(
+            stops: [
+                .init(color: Color(red: 0.14, green: 0.11, blue: 0.3), location: 0),
+                .init(color: Color(red: 0, green: 0.45, blue: 1), location: 1),
+            ],
+            startPoint: UnitPoint(x: 0.5, y: 0.37),
+            endPoint: UnitPoint(x: 0.5, y: 1)
+        )
+        .ignoresSafeArea()
+    }
+}
+
+struct ControlBoxWrapper<Content: View>: View {
+    let content: () -> Content
+
+    var body: some View {
+        content()
+            .frame(maxWidth: 353, maxHeight: 300)
+            .cornerRadius(11)
+    }
+}
+
+// default Category setup
+extension Cats {
+    static func initDefaultsIfNeeded(in context: ModelContext, existing cats: [Cats]) {
         guard cats.isEmpty else { return }
 
         let defaults: [Cats] = [
@@ -56,10 +70,10 @@ struct ContentView: View {
             Cats(name: "건강", color: ".picGreen"),
             Cats(name: "교류", color: ".picRed"),
             Cats(name: "기타", color: ".picYellow"),
-
             Cats(name: "지울 항목", color: ".picYellow"),
         ]
-        defaults.forEach { modelContext.insert($0) }
+
+        defaults.forEach { context.insert($0) }
     }
 }
 

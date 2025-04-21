@@ -22,10 +22,22 @@ struct StellaiaryApp: App {
 //            fatalError("Could not create ModelContainer: \(error)")
 //        }
 //    }()
+    
+    init() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground() // 완전 투명 배경
+        appearance.backgroundColor = .clear // 진짜 확실히 투명
+        appearance.shadowColor = .clear
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.font, .custom("IMHyemin-Regular", size: 17))
         }
         //.modelContainer(sharedModelContainer)
         .modelContainer(for: [Dats.self, Cats.self])

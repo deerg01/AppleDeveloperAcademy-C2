@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		264245412DB1DCAB0011B584 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 264245402DB1DCAB0011B584 /* ComposableArchitecture */; };
+		26AA15892DB5DB8D00D57752 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 26AA15882DB5DB8D00D57752 /* SwiftUIIntrospect */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,7 +35,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		26CF690A2DB5D22F00D7400C /* Exceptions for "Stellaiary" folder in "Stellaiary" target */ = {
+		26AA15C72DB5F15600D57752 /* Exceptions for "Stellaiary" folder in "Stellaiary" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -47,7 +48,7 @@
 		26B1BA0C2DB08399008E991A /* Stellaiary */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				26CF690A2DB5D22F00D7400C /* Exceptions for "Stellaiary" folder in "Stellaiary" target */,
+				26AA15C72DB5F15600D57752 /* Exceptions for "Stellaiary" folder in "Stellaiary" target */,
 			);
 			path = Stellaiary;
 			sourceTree = "<group>";
@@ -70,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				264245412DB1DCAB0011B584 /* ComposableArchitecture in Frameworks */,
+				26AA15892DB5DB8D00D57752 /* SwiftUIIntrospect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +101,7 @@
 				26B1BA0B2DB08399008E991A /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		26B1BA0B2DB08399008E991A /* Products */ = {
 			isa = PBXGroup;
@@ -131,6 +134,7 @@
 			name = Stellaiary;
 			packageProductDependencies = (
 				264245402DB1DCAB0011B584 /* ComposableArchitecture */,
+				26AA15882DB5DB8D00D57752 /* SwiftUIIntrospect */,
 			);
 			productName = Stellaiary;
 			productReference = 26B1BA0A2DB08399008E991A /* Stellaiary.app */;
@@ -216,6 +220,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				2642453F2DB1DCAB0011B584 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				26AA15872DB5DB8D00D57752 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 26B1BA0B2DB08399008E991A /* Products */;
@@ -586,6 +591,14 @@
 				minimumVersion = 1.19.1;
 			};
 		};
+		26AA15872DB5DB8D00D57752 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/swiftui-introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -593,6 +606,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2642453F2DB1DCAB0011B584 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		26AA15882DB5DB8D00D57752 /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26AA15872DB5DB8D00D57752 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
+			productName = SwiftUIIntrospect;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
