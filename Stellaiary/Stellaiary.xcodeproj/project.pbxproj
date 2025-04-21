@@ -35,7 +35,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		26AA15862DB5DA3000D57752 /* Exceptions for "Stellaiary" folder in "Stellaiary" target */ = {
+		26AA15C72DB5F15600D57752 /* Exceptions for "Stellaiary" folder in "Stellaiary" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -48,7 +48,7 @@
 		26B1BA0C2DB08399008E991A /* Stellaiary */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				26AA15862DB5DA3000D57752 /* Exceptions for "Stellaiary" folder in "Stellaiary" target */,
+				26AA15C72DB5F15600D57752 /* Exceptions for "Stellaiary" folder in "Stellaiary" target */,
 			);
 			path = Stellaiary;
 			sourceTree = "<group>";

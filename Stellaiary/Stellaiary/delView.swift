@@ -45,6 +45,7 @@ struct delView: View {
                             .buttonStyle(BorderlessButtonStyle())
                         }
                     }
+                    .listRowBackground(Color.clear)
                     .contentShape(Rectangle())
                     .onTapGesture {
                         withAnimation {
@@ -53,6 +54,21 @@ struct delView: View {
                     }
                 }
             }
+            .background(
+                LinearGradient(
+                    stops: [
+                        Gradient.Stop(color: .white, location: 0.00),
+                        Gradient.Stop(
+                            color: Color(red: 0.6, green: 0.6, blue: 0.6),
+                            location: 1.00
+                        ),
+                    ],
+                    startPoint: UnitPoint(x: 0.04, y: 0),
+                    endPoint: UnitPoint(x: 1, y: 1)
+                )
+            )
+            .scrollContentBackground(.hidden)
+
             .alert("휴지통을 비우시겠습니까?", isPresented: $delAlert) {
                 Button("삭제", role: .destructive) {
                     emptyTrash()
@@ -64,6 +80,7 @@ struct delView: View {
             .alert("휴지통은 비어있습니다", isPresented: $emptAlert) {
                 Button("확인", role: .cancel) {}
             }
+            
         }
         .navigationTitle("휴지통")
         .toolbar {

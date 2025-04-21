@@ -37,6 +37,7 @@ struct StellaiaryApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.font, .custom("IMHyemin-Regular", size: 17))
         }
         //.modelContainer(sharedModelContainer)
         .modelContainer(for: [Dats.self, Cats.self])
