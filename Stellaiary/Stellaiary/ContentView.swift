@@ -88,7 +88,7 @@ struct ControlBoxWrapper<Content: View>: View {
 
     var body: some View {
         content()
-            .frame(maxWidth: 353, maxHeight: 300)
+            .frame(maxWidth: 353, maxHeight: 400)
             .cornerRadius(11)
     }
 }
