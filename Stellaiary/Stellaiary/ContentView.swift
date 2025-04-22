@@ -93,6 +93,7 @@ struct ControlBoxWrapper<Content: View>: View {
     }
 }
 
+
 // default Category setup
 extension Cats {
     static func initDefaultsIfNeeded(

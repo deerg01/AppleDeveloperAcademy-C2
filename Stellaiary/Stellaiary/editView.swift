@@ -47,23 +47,36 @@ struct editView: View {
             HStack {
                 Text("도전 주제:")
                     .font(.custom("IMHyemin-Bold", size: 17))
+
                 DatePicker("", selection: $tempDate, displayedComponents: .date)
                     .datePickerStyle(.compact)
             }
 
-            Picker("도전 주제", selection: $tempCategory) {
+            Menu {
                 ForEach(cats) { cat in
-                    Text(cat.name).tag(cat.name)
+                    Button {
+                        tempCategory = cat.name
+                    } label: {
+                        Text(cat.name)
+                            .foregroundColor(.accentColor)
+                    }
                 }
+            } label: {
+                HStack {
+                    Text(tempCategory.isEmpty ? "도전 주제를 선택하세요" : tempCategory)
+                        .foregroundColor(tempCategory.isEmpty ? .gray : .primary)
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.gray.opacity(0.2))
+                .cornerRadius(10)
             }
-            .pickerStyle(.menu)
-            .padding(.horizontal)
-            .frame(maxWidth: .infinity)
-            .background(Color.gray.opacity(0.2))
-            .cornerRadius(10)
-            .tint(.accentColor)
         }
     }
+
+    
 
     private var titleField: some View {
         HStack {

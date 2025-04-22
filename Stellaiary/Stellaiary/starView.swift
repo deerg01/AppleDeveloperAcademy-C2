@@ -17,6 +17,7 @@ struct starView: View {
     @State private var starPositions: [PersistentIdentifier: CGPoint] = [:]
     @State private var didRegen = false  // reposition when entering foreground
     @State private var starScales: [PersistentIdentifier: CGFloat] = [:]
+    
     private let colorPalette: [Color] = [
         .picSkyblue,
         .picBlue,
@@ -52,7 +53,7 @@ struct starView: View {
 
                     Button(action: { //blinking animation
                         withAnimation(.easeInOut(duration: 0.3)) {
-                            starScales[dat.id] = 1.7
+                            starScales[dat.id] = 2.7
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                             withAnimation(.easeInOut(duration: 0.3)) {
@@ -62,7 +63,7 @@ struct starView: View {
                     }) {
                         starr()
                             .fill(color)
-                            .frame(width: 27)
+                            .frame(width: 22) // star size
                             .opacity(dat.level)
                             .scaleEffect(scale)
                     }
@@ -111,7 +112,7 @@ struct starView: View {
     func randomPosition(in size: CGSize) -> CGPoint {
         let padding: CGFloat = 60
         let minY: CGFloat = 0 // from top of screen
-        let maxY = size.height * 0.7  // to 70% screen coverage
+        let maxY = size.height * 0.8  // to nn% screen coverage
         let x = CGFloat.random(in: padding...(size.width - padding))
         let y = CGFloat.random(in: minY...(maxY - padding))
         return CGPoint(x: x, y: y)
