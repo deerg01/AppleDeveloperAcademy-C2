@@ -12,6 +12,7 @@ import SwiftUI
 import SwiftUIIntrospect
 
 struct writeView: View {
+    
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
 
@@ -43,7 +44,7 @@ struct writeView: View {
             .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
-        .alert("어떤 도전을 하셨나요?", isPresented: $showAlert) {
+        .alert("제목을 입력하세요", isPresented: $showAlert) {
             Button("확인", role: .cancel) {}
         }
         .background(
@@ -76,19 +77,32 @@ struct writeView: View {
             Text("도전 주제: ")
                 .font(.custom("IMHyemin-Bold", size: 17))
 
-            Picker("도전 주제", selection: $selectedCat) {
+            Menu {
                 ForEach(cats) { cat in
-                    Text(cat.name).tag(Optional(cat))
+                    Button {
+                        selectedCat = cat
+                    } label: {
+                        Text(cat.name)
+                            .foregroundColor(.accentColor)
+                    }
                 }
+            } label: {
+                HStack {
+                    Text(selectedCat?.name ?? "도전 주제를 선택하세요")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(.gray)
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 10)
+                .frame(maxWidth: .infinity)
+                .background(Color(red: 0.87, green: 0.87, blue: 0.87).opacity(0.7))
+                .cornerRadius(10)
             }
-            .pickerStyle(.menu)
-            .padding(.horizontal)
-            .frame(maxWidth: .infinity)
-            .background(Color(red: 0.87, green: 0.87, blue: 0.87).opacity(0.7))
-            .cornerRadius(10)
-            .tint(.accentColor)
         }
     }
+
 
     private var titleField: some View {
         HStack {
