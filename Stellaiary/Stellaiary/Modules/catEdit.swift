@@ -18,47 +18,18 @@ struct catAddView: View {
     @State private var showDupAlert = false
 
     var body: some View {
-        VStack(spacing: 20) {
-            HStack {
-                Text("도전 주제: ")
-
-                TextField("파이팅! 목표를 설정해바요", text: $titleInput)
-                    .padding(8)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(10)
-                    .foregroundColor(.white)
-            }
-
-            Divider()
-
-            HStack {
-                Text("색상: ")
-                Spacer()
-            }
-
-            colorPicker(selectedColor: $selectedColor)
-        }
-        .padding()
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button("추가") {
-                    if cats.contains(where: { $0.name == titleInput }) {
-                        showDupAlert = true
-                    } else {
-                        let newCat = Cats(
-                            name: titleInput,
-                            color: "." + selectedColor
-                        )
-                        modelContext.insert(newCat)
-                        dismiss()
-                    }
-                }
-                .tint(.blue)
-                .disabled(titleInput.isEmpty)
-            }
-        }
-        .alert("이미 존재하는 주제입니다", isPresented: $showDupAlert) {
-            Button("확인", role: .cancel) {}
+        CatEditorView(
+            isEditing: false,
+            isOther: false,
+            titleInput: $titleInput,
+            selectedColor: $selectedColor,
+            showDupAlert: $showDupAlert,
+            existingNames: cats.map { $0.name },
+            confirmButtonTitle: "추가"
+        ) {
+            let newCat = Cats(name: titleInput, color: "." + selectedColor)
+            modelContext.insert(newCat)
+            dismiss()
         }
     }
 }
@@ -75,65 +46,117 @@ struct catModView: View {
     private var isOther: Bool { cat.name == "기타" }
 
     var body: some View {
-        VStack(spacing: 20) {
-            HStack {
-                Text("도전 주제: ")
-
-                if isOther {
-                    HStack {
-                        Text("기타")
-                        Image(systemName: "lock.fill")
-                    }
-                    .padding(8)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(10)
-                    .foregroundColor(.black)
-
-                } else {
-                    TextField("파이팅! 목표를 설정해바요", text: $titleInput)
-                        .padding(8)
-                        .background(.ultraThinMaterial)
-                        .cornerRadius(10)
-                        .foregroundColor(.black)
-                }
-            }
-
-            Divider()
-
-            HStack {
-                Text("색상: ")
-                Spacer()
-            }
-
-            colorPicker(selectedColor: $selectedColor)
+        CatEditorView(
+            isEditing: true,
+            isOther: isOther,
+            titleInput: $titleInput,
+            selectedColor: $selectedColor,
+            showDupAlert: $showDupAlert,
+            existingNames: cats.filter { $0.id != cat.id }.map { $0.name },
+            confirmButtonTitle: "저장"
+        ) {
+            cat.name = titleInput
+            cat.color = "." + selectedColor
+            dismiss()
         }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .onAppear {
             titleInput = cat.name
             selectedColor = cat.color.replacingOccurrences(of: ".", with: "")
         }
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button("저장") {
-                    let isDuplicate = cats.contains {
-                        $0.name == titleInput && $0.id != cat.id
-                    }
+    }
+}
 
-                    if isDuplicate {
-                        showDupAlert = true
+// common UI
+struct CatEditorView: View {
+    let isEditing: Bool
+    let isOther: Bool
+    @Binding var titleInput: String
+    @Binding var selectedColor: String
+    @Binding var showDupAlert: Bool
+    let existingNames: [String]
+    let confirmButtonTitle: String
+    let onSave: () -> Void
+
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                stops: [
+                    .init(color: .white, location: 0),
+                    .init(color: Color.gray, location: 1)
+                ],
+                startPoint: UnitPoint(x: 0.04, y: 0),
+                endPoint: UnitPoint(x: 1, y: 1)
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 20) {
+                HStack {
+                    Text("도전 주제: ")
+
+                    if isOther {
+                        HStack {
+                            Text("기타")
+                            Image(systemName: "lock.fill")
+                        }
+                        .modifier(LockedFieldModifier())
                     } else {
-                        cat.name = titleInput
-                        cat.color = "." + selectedColor
-                        dismiss()
+                        TextField("파이팅! 목표를 설정해바요", text: $titleInput)
+                            .modifier(EditFieldModifier())
                     }
                 }
-                .tint(.blue)
+
+                Divider()
+
+                HStack {
+                    Text("색상: ")
+                    Spacer()
+                }
+
+                colorPicker(selectedColor: $selectedColor)
+            }
+            .padding()
+        }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button(confirmButtonTitle) {
+                    let isDup = existingNames.contains {
+                        $0 == titleInput
+                    }
+
+                    if isDup {
+                        showDupAlert = true
+                    } else {
+                        onSave()
+                    }
+                }
+                .tint(.accentColor)
+                .disabled(titleInput.isEmpty && !isOther)
             }
         }
         .alert("이미 존재하는 주제입니다", isPresented: $showDupAlert) {
             Button("확인", role: .cancel) {}
         }
+    }
+}
+
+// common modifier
+struct EditFieldModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding(8)
+            .background(.ultraThinMaterial)
+            .cornerRadius(10)
+            .foregroundColor(.black)
+    }
+}
+
+struct LockedFieldModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding(8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.ultraThinMaterial)
+            .cornerRadius(10)
+            .foregroundColor(.black)
     }
 }
