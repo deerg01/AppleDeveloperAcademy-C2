@@ -4,6 +4,8 @@
 //
 //  Created by POS on 4/17/25.
 //
+// 주제피커 전체 영역 터치 가능하게
+// 별의 투명도를 실시간으로 볼 수 있게 
 
 import SwiftData
 import SwiftUI
@@ -154,7 +156,8 @@ struct writeView: View {
                 showAlert = true
                 return
             }
-
+            
+            
             let newData = Dats(
                 category: selectedCat.name,
                 title: titleInput,

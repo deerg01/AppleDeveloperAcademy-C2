@@ -15,20 +15,40 @@ struct ContentView: View {
     @Query private var cats: [Cats]
 
     var body: some View {
-        ZStack {
-            BackgroundGradientView()
+        //        ZStack {
+        //            BackgroundGradientView()
 
-            TabView {
+        TabView {
+            ZStack {
+                Image("backL")
+                    .resizable()
+                    //.renderingMode(.original)
+                    .aspectRatio(contentMode: .fill)
+                    .offset(x: -223, y: 0) //GOD 해냈습니다 근데 기종마다 알맞게 설정하려면?
+                    .ignoresSafeArea()
+
                 ControlBoxWrapper {
                     controlbox()
                 }
-                .tag(0)
+            }
+            .tag(0)
+            
+            ZStack {
+                Image("backR")
+                    .resizable()
+                    .renderingMode(.original)
+                    .aspectRatio(contentMode: .fill)
+                    .offset(x: 142, y: 0)
+                    .ignoresSafeArea()
 
                 starView()
-                    .tag(1)
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .tag(1)
+            
         }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .edgesIgnoringSafeArea(.all)  // for TapView sys area
+        //}
         .onAppear {
             Cats.initDefaultsIfNeeded(in: modelContext, existing: cats)
         }
@@ -37,15 +57,29 @@ struct ContentView: View {
 
 struct BackgroundGradientView: View {
     var body: some View {
-        LinearGradient(
-            stops: [
-                .init(color: Color(red: 0.14, green: 0.11, blue: 0.3), location: 0),
-                .init(color: Color(red: 0, green: 0.45, blue: 1), location: 1),
-            ],
-            startPoint: UnitPoint(x: 0.5, y: 0.37),
-            endPoint: UnitPoint(x: 0.5, y: 1)
-        )
-        .ignoresSafeArea()
+        //        LinearGradient(
+        //            stops: [
+        //                .init(color: Color(red: 0.14, green: 0.11, blue: 0.3), location: 0),
+        //                .init(color: Color(red: 0, green: 0.45, blue: 1), location: 1),
+        //            ],
+        //            startPoint: UnitPoint(x: 0.5, y: 0.37),
+        //            endPoint: UnitPoint(x: 0.5, y: 1)
+        //        )
+        //        .ignoresSafeArea()
+        //        EllipticalGradient(
+        //        stops: [
+        //        Gradient.Stop(color: Color(red: 0.1, green: 0.39, blue: 0.71), location: 0.00),
+        //        Gradient.Stop(color: Color(red: 0.01, green: 0.18, blue: 0.59), location: 0.26),
+        //        Gradient.Stop(color: Color(red: 0.07, green: 0.03, blue: 0.28), location: 0.88),
+        //        ],
+        //        center: UnitPoint(x: 0.5, y: 0.39)
+        //        )
+        //        .ignoresSafeArea()
+        Image("backImgae")  // backgroundImage는 이미지 파일 이름
+            .resizable()
+            //.scaledToFill()
+            //.clipped()
+            .ignoresSafeArea()
     }
 }
 
@@ -61,7 +95,10 @@ struct ControlBoxWrapper<Content: View>: View {
 
 // default Category setup
 extension Cats {
-    static func initDefaultsIfNeeded(in context: ModelContext, existing cats: [Cats]) {
+    static func initDefaultsIfNeeded(
+        in context: ModelContext,
+        existing cats: [Cats]
+    ) {
         guard cats.isEmpty else { return }
 
         let defaults: [Cats] = [

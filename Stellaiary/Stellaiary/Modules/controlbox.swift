@@ -26,7 +26,7 @@ struct controlbox: View {
                         Spacer()
                         Image(systemName: "chevron.right")
                     }
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(.black)
 
                 }
 
@@ -38,7 +38,7 @@ struct controlbox: View {
                         Spacer()
                         Image(systemName: "chevron.right")
                     }
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(.black)
                 }
 
                 Divider()
@@ -49,7 +49,7 @@ struct controlbox: View {
                         Spacer()
                         Image(systemName: "chevron.right")
                     }
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(.black)
                 }
 
             }
@@ -78,7 +78,6 @@ struct controlbox: View {
 
             )
         }
-        
     }
 }
 
