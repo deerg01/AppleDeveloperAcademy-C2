@@ -109,10 +109,11 @@ struct starView: View {
     }
 
     func randomPosition(in size: CGSize) -> CGPoint {
-        let padding: CGFloat = 40
-        let minY: CGFloat = 100  //min limit on y value. every position is above minY
+        let padding: CGFloat = 60
+        let minY: CGFloat = 0 // from top of screen
+        let maxY = size.height * 0.7  // to 70% screen coverage
         let x = CGFloat.random(in: padding...(size.width - padding))
-        let y = CGFloat.random(in: minY...(size.height - padding))
+        let y = CGFloat.random(in: minY...(maxY - padding))
         return CGPoint(x: x, y: y)
     }
     
