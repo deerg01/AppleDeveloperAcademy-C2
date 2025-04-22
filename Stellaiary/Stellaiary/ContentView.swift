@@ -19,16 +19,18 @@ struct ContentView: View {
         //            BackgroundGradientView()
 
         TabView {
-            ZStack {
-                Image("backL")
-                    .resizable()
+            NavigationStack{
+                ZStack {
+                    Image("backL")
+                        .resizable()
                     //.renderingMode(.original)
-                    .aspectRatio(contentMode: .fill)
-                    .offset(x: -223, y: 0) //GOD 해냈습니다 근데 기종마다 알맞게 설정하려면?
-                    .ignoresSafeArea()
-
-                ControlBoxWrapper {
-                    controlbox()
+                        .aspectRatio(contentMode: .fill)
+                        .offset(x: -223, y: 0) //GOD 해냈습니다 근데 기종마다 알맞게 설정하려면?
+                        .ignoresSafeArea()
+                    
+                    //ControlBoxWrapper {
+                        controlbox()
+                    //}
                 }
             }
             .tag(0)

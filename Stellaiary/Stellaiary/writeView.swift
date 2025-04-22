@@ -49,6 +49,7 @@ struct writeView: View {
         }
         .background(
             Image("paper")
+                .frame(width: 353, height: 565)
         )
         .onAppear {
             if selectedCat == nil {
