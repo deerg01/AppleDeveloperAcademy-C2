@@ -26,9 +26,16 @@ struct datListView: View {
                         VStack(alignment: .leading) {
                             Text(dat.title)
                                 .font(.custom("IMHyemin-Bold", size: 17))
-                            Text(dat.date.formatted(date: .abbreviated, time: .omitted))
-                                .font(.custom("IMHyemin-Regular", size: 15))
-                                .foregroundColor(.gray)
+                            Text(
+                                dat.date.formatted(
+                                    date: .abbreviated,
+                                    time: .omitted
+                                )
+                            )
+                            .font(.custom("IMHyemin-Regular", size: 15))
+                            .foregroundColor(
+                                Color(red: 0.24, green: 0.24, blue: 0.24)
+                            )
                         }
 
                         Spacer()
@@ -38,7 +45,7 @@ struct datListView: View {
                                 datToDelete = dat
                             } label: {
                                 Image(systemName: "trash")
-                                    .foregroundColor(.red)
+                                    .foregroundColor(Color.sysRed)
                             }
                             .buttonStyle(.borderless)
                         }
@@ -54,7 +61,7 @@ struct datListView: View {
                 .listRowBackground(Color.clear)
             }
             .scrollContentBackground(.hidden)
-            .background(gradientBackground) // gradient background
+            .background(gradientBackground)  // gradient background
         }
         .alert(item: $datToDelete) { dat in
             Alert(
@@ -70,40 +77,45 @@ struct datListView: View {
             )
         }
         .background(
-            NavigationLink(
-                destination: selectedDat.map { editView(dat: $0) },
-                isActive: $toEdit,
-                label: { EmptyView() }
-            )
-            .hidden()
+            EmptyView()
+                .navigationDestination(isPresented: $toEdit) {
+                    if let dat = selectedDat {
+                        editView(dat: dat)
+                    }
+                }
         )
         .navigationTitle(category)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button(isEditing ? "완료" : "편집") {
-                    withAnimation {
-                        isEditing.toggle()
-                    }
+                Button(action: {
+                    isEditing.toggle()
+                }) {
+                    Text(isEditing ? "완료" : "편집")
+                        .bold()
                 }
             }
         }
         .onAppear {
-            // 네비게이션 바 커스터마이즈
             let navBarAppearance = UINavigationBarAppearance()
             navBarAppearance.configureWithTransparentBackground()
-//            navBarAppearance.backgroundColor = UIColor.clear // 투명 배경 설정
 
             // 네비게이션 타이틀 폰트 변경
             navBarAppearance.titleTextAttributes = [
-                .font: UIFont(name: "IMHyemin-Bold", size: 20) ?? UIFont.systemFont(ofSize: 20),
-                .foregroundColor: UIColor.black // 타이틀 글자 색상
+                .font: UIFont(name: "IMHyemin-Bold", size: 20)
+                    ?? UIFont.systemFont(ofSize: 20),
+                .foregroundColor: UIColor.black,
             ]
-            
+
             let backButtonAppearance = UIBarButtonItemAppearance()
-                backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.clear]
-                backButtonAppearance.normal.titlePositionAdjustment = UIOffset(horizontal: -1000, vertical: 0)
-                navBarAppearance.backButtonAppearance = backButtonAppearance
+            backButtonAppearance.normal.titleTextAttributes = [
+                .foregroundColor: UIColor.clear
+            ]
+            backButtonAppearance.normal.titlePositionAdjustment = UIOffset(
+                horizontal: -1000,
+                vertical: 0
+            )
+            navBarAppearance.backButtonAppearance = backButtonAppearance
 
             // 네비게이션 바 스타일 설정
             UINavigationBar.appearance().standardAppearance = navBarAppearance
@@ -112,22 +124,23 @@ struct datListView: View {
         .introspect(.viewController, on: .iOS(.v16, .v17)) { viewController in
             viewController.view.backgroundColor = .clear
         }
-        .navigationBarBackButtonHidden(false) // 뒤로 가기 버튼 보이도록 설정
+        .navigationBarBackButtonHidden(false)
     }
 
-    // gradientBackground를 별도의 변수로 분리
     private var gradientBackground: LinearGradient {
         LinearGradient(
             stops: [
-                Gradient.Stop(color: .white, location: 0.00),
                 Gradient.Stop(
-                    color: Color(red: 0.6, green: 0.6, blue: 0.6),
+                    color: Color(red: 0.78, green: 0.78, blue: 0.8),
+                    location: 0.00
+                ),
+                Gradient.Stop(
+                    color: Color(red: 0.62, green: 0.6, blue: 0.67),
                     location: 1.00
                 ),
             ],
-            startPoint: UnitPoint(x: 0.04, y: 0),
-            endPoint: UnitPoint(x: 1, y: 1)
+            startPoint: UnitPoint(x: 0.04, y: 0.02),
+            endPoint: UnitPoint(x: 0.66, y: 0.5)
         )
     }
 }
-

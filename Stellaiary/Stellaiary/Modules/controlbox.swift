@@ -13,7 +13,7 @@ struct controlbox: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var dats: [Dats]
     @Query private var cats: [Cats]
-
+    
     @GestureState private var dragOffset: CGSize = .zero
 
     var body: some View {
@@ -57,24 +57,31 @@ struct controlbox: View {
             .padding(.horizontal, 30)
             .padding(.vertical, 20)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: 353, maxHeight: 300)
             .background(
                 LinearGradient(
                     stops: [
-                        Gradient.Stop(color: .white, location: 0.00),
                         Gradient.Stop(
-                            color: Color(red: 0.6, green: 0.6, blue: 0.6),
+                            color: Color(red: 0.78, green: 0.78, blue: 0.8),
+                            location: 0.00
+                        ),
+                        Gradient.Stop(
+                            color: Color(red: 0.62, green: 0.6, blue: 0.67),
                             location: 1.00
                         ),
                     ],
-                    startPoint: UnitPoint(x: 0.04, y: 0),
-                    endPoint: UnitPoint(x: 1, y: 1)
+                    startPoint: UnitPoint(x: 0.04, y: 0.02),
+                    endPoint: UnitPoint(x: 0.66, y: 0.5)
                 )
             )
             .cornerRadius(11)
             .overlay(
                 RoundedRectangle(cornerRadius: 11)
                     .inset(by: 0.5)
-                    .stroke(.white, lineWidth: 1)
+                    .stroke(
+                        Color(red: 0.31, green: 0.29, blue: 0.45),
+                        lineWidth: 1
+                    )
 
             )
         }

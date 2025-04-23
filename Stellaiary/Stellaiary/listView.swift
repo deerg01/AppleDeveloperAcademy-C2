@@ -43,7 +43,10 @@ struct listView: View {
                                 Text(cat.name)
                                     .font(.custom("IMHyemin-Bold", size: 17))
                                     .foregroundColor(.primary)
-                                    .frame(maxHeight: .infinity, alignment: .center)
+                                    .frame(
+                                        maxHeight: .infinity,
+                                        alignment: .center
+                                    )
 
                                 Spacer()
 
@@ -63,20 +66,31 @@ struct listView: View {
 
                     }
                     .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 26, leading: 20, bottom: 26, trailing: 20))
+                    .listRowInsets(
+                        EdgeInsets(
+                            top: 26,
+                            leading: 20,
+                            bottom: 26,
+                            trailing: 20
+                        )
+                    )
                 }
 
                 if !isEditing {  // category add button
-                    ZStack {  // button on navigation link. 어차피 투명화로 배경 날릴거니까 밑부분 더럽게 잘린건 무시..
-                        NavigationLink(
-                            destination: catAddView(),
-                            isActive: $showCatAdd
-                        ) {
-                            //EmptyView()
-                            Image(systemName: "plus.circle")
-                                .foregroundColor(.accentColor)
-                        }
-                        .hidden()
+                    ZStack {
+                        Image(systemName: "plus.circle")
+                            .foregroundColor(.accentColor)
+                            .onTapGesture {
+                                showCatAdd = true
+                            }
+                            .background(
+                                EmptyView()
+                                    .navigationDestination(
+                                        isPresented: $showCatAdd
+                                    ) {
+                                        catAddView()
+                                    }
+                            )
 
                         Button(action: {
                             showCatAdd = true
@@ -96,14 +110,17 @@ struct listView: View {
             .background(
                 LinearGradient(
                     stops: [
-                        Gradient.Stop(color: .white, location: 0.00),
                         Gradient.Stop(
-                            color: Color(red: 0.6, green: 0.6, blue: 0.6),
+                            color: Color(red: 0.78, green: 0.78, blue: 0.8),
+                            location: 0.00
+                        ),
+                        Gradient.Stop(
+                            color: Color(red: 0.62, green: 0.6, blue: 0.67),
                             location: 1.00
                         ),
                     ],
-                    startPoint: UnitPoint(x: 0.04, y: 0),
-                    endPoint: UnitPoint(x: 1, y: 1)
+                    startPoint: UnitPoint(x: 0.04, y: 0.02),
+                    endPoint: UnitPoint(x: 0.66, y: 0.5)
                 )
             )
             .scrollContentBackground(.hidden)
@@ -126,6 +143,7 @@ struct listView: View {
                     isEditing.toggle()
                 }) {
                     Text(isEditing ? "완료" : "편집")
+                        .bold()
                 }
             }
         }

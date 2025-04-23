@@ -4,18 +4,14 @@
 //
 //  Created by POS on 4/17/25.
 //
-// 주제피커 전체 영역 터치 가능하게
-// 별의 투명도를 실시간으로 볼 수 있게 
 
 import SwiftData
 import SwiftUI
 import SwiftUIIntrospect
 
 struct writeView: View {
-    
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
-
     @Query private var cats: [Cats]
 
     @State private var selectedCat: Cats? = nil
@@ -38,31 +34,25 @@ struct writeView: View {
                 memoEditor
                 launchButton
             }
-            .onTapGesture {
-                hideKey()
-            }
             .padding()
+            .onTapGesture {
+                UIApplication.shared.endEditing()
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .alert("제목을 입력하세요", isPresented: $showAlert) {
             Button("확인", role: .cancel) {}
         }
-        .background(
-            Image("paper")
-        )
+        .background(Image("paper"))
         .onAppear {
             if selectedCat == nil {
-                selectedCat =
-                    cats.first(where: { $0.name == "기타" }) ?? cats.first
+                selectedCat = cats.first(where: { $0.name == "기타" }) ?? cats.first
             }
 
             let navBarAppearance = UINavigationBarAppearance()
             navBarAppearance.configureWithTransparentBackground()
-            navBarAppearance.backgroundEffect = UIBlurEffect(
-                style: .systemUltraThinMaterial
-            )
-            navBarAppearance.backgroundColor = UIColor.systemBackground
-                .withAlphaComponent(0.25)
+            navBarAppearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+            navBarAppearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.25)
 
             UINavigationBar.appearance().standardAppearance = navBarAppearance
             UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
@@ -103,7 +93,6 @@ struct writeView: View {
         }
     }
 
-
     private var titleField: some View {
         HStack {
             Text("제목: ")
@@ -143,11 +132,7 @@ struct writeView: View {
                 .padding(8)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(
-                            Color(red: 0.87, green: 0.87, blue: 0.87).opacity(
-                                0.5
-                            )
-                        )
+                        .fill(Color(red: 0.87, green: 0.87, blue: 0.87).opacity(0.5))
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
@@ -159,9 +144,7 @@ struct writeView: View {
 
     private var launchButton: some View {
         Button(action: {
-            if titleInput.trimmingCharacters(in: .whitespacesAndNewlines)
-                .isEmpty
-            {
+            if titleInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 showAlert = true
                 return
             }
@@ -170,8 +153,7 @@ struct writeView: View {
                 showAlert = true
                 return
             }
-            
-            
+
             let newData = Dats(
                 category: selectedCat.name,
                 title: titleInput,
@@ -197,18 +179,6 @@ struct writeView: View {
         }
     }
 }
-
-extension View {
-    func hideKey() {
-        UIApplication.shared.sendAction(
-            #selector(UIResponder.resignFirstResponder),
-            to: nil,
-            from: nil,
-            for: nil
-        )
-    }
-}
-
 #Preview {
     writeView()
         .modelContainer(for: [Dats.self, Cats.self])

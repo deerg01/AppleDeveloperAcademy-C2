@@ -11,23 +11,24 @@ struct colorPicker: View {
     @Binding var selectedColor: String
 
     let colors: [Color] = [ // 7개가 max
-        .picSkyblue,
-        .picBlue,
-        .picPink,
-        .picRed,
-        .picOrange,
-        .picYellow,
-        .picGreen,
+        .c1,
+        .c2,
+        .c3,
+        .c4,
+        .c5,
+        .c6,
+        .c7,
+        
     ]
 
     let colorNames: [String] = [
-        "picSkyblue",
-        "picBlue",
-        "picPink",
-        "picRed",
-        "picOrange",
-        "picYellow",
-        "picGreen",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
     ]
 
     var body: some View {
@@ -58,7 +59,7 @@ struct colorPicker: View {
 }
 
 #Preview {
-    @State var color = "picPink"
+    @State var color = "c4"
 
     return colorPicker(selectedColor: $color)
 }

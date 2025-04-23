@@ -116,6 +116,9 @@ struct CatEditorView: View {
             }
             .padding()
         }
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button(confirmButtonTitle) {
@@ -139,7 +142,7 @@ struct CatEditorView: View {
     }
 }
 
-// common modifier
+
 struct EditFieldModifier: ViewModifier {
     func body(content: Content) -> some View {
         content

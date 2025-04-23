@@ -5,8 +5,8 @@
 //  Created by POS on 4/17/25.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct delView: View {
     @Query private var allDats: [Dats]
@@ -25,9 +25,14 @@ struct delView: View {
                             Text(dat.title)
                                 .font(.headline)
 
-                            Text(dat.date.formatted(date: .abbreviated, time: .omitted))
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+                            Text(
+                                dat.date.formatted(
+                                    date: .abbreviated,
+                                    time: .omitted
+                                )
+                            )
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
                         }
 
                         Spacer()
@@ -57,14 +62,17 @@ struct delView: View {
             .background(
                 LinearGradient(
                     stops: [
-                        Gradient.Stop(color: .white, location: 0.00),
                         Gradient.Stop(
-                            color: Color(red: 0.6, green: 0.6, blue: 0.6),
+                            color: Color(red: 0.78, green: 0.78, blue: 0.8),
+                            location: 0.00
+                        ),
+                        Gradient.Stop(
+                            color: Color(red: 0.62, green: 0.6, blue: 0.67),
                             location: 1.00
                         ),
                     ],
-                    startPoint: UnitPoint(x: 0.04, y: 0),
-                    endPoint: UnitPoint(x: 1, y: 1)
+                    startPoint: UnitPoint(x: 0.04, y: 0.02),
+                    endPoint: UnitPoint(x: 0.66, y: 0.5)
                 )
             )
             .scrollContentBackground(.hidden)
@@ -80,7 +88,7 @@ struct delView: View {
             .alert("휴지통은 비어있습니다", isPresented: $emptAlert) {
                 Button("확인", role: .cancel) {}
             }
-            
+
         }
         .navigationTitle("휴지통")
         .toolbar {
@@ -94,6 +102,7 @@ struct delView: View {
                 } label: {
                     Text("삭제")
                         .tint(Color.sysRed)
+                        .bold()
                 }
             }
         }

@@ -18,23 +18,24 @@ struct starView: View {
     @State private var didRegen = false  // reposition when entering foreground
     @State private var starScales: [PersistentIdentifier: CGFloat] = [:]
     
-    private let colorPalette: [Color] = [
-        .picSkyblue,
-        .picBlue,
-        .picPink,
-        .picRed,
-        .picOrange,
-        .picYellow,
-        .picGreen,
+    private let colors: [Color] = [ // 7개가 max
+        .c1,
+        .c2,
+        .c3,
+        .c4,
+        .c5,
+        .c6,
+        .c7,
+        
     ]
     private let colorNames: [String] = [
-        "picSkyblue",
-        "picBlue",
-        "picPink",
-        "picRed",
-        "picOrange",
-        "picYellow",
-        "picGreen",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
     ]
 
     var body: some View {
@@ -102,7 +103,7 @@ struct starView: View {
         let key =
             cat.color.hasPrefix(".") ? String(cat.color.dropFirst()) : cat.color
         if let idx = colorNames.firstIndex(of: key) {
-            return colorPalette[idx]
+            return colors[idx]
         } else {
             print("Error: color undefined for \(categoryName)")
             return .gray
@@ -122,9 +123,6 @@ struct starView: View {
     func regenerateAllPositions(in size: CGSize) {
         for dat in dats.filter({ !$0.isDel }) {
             starPositions[dat.id] = randomPosition(in: size)
-//            withAnimation(.easeInOut(duration: 0.5)) {
-//                starPositions[dat.id] = randomPosition(in: size)
-//            }
         }
     }
 }

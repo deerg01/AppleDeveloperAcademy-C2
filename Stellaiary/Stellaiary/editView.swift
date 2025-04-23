@@ -9,7 +9,6 @@ import SwiftData
 import SwiftUI
 import SwiftUIIntrospect
 
-
 struct editView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -35,11 +34,14 @@ struct editView: View {
                 updateButton
             }
             .padding()
-            .navigationBarTitleDisplayMode(.inline)
-            .background(Image("paper"))
-            .onAppear(perform: initializeFields)
-            .introspect(.viewController, on: .iOS(.v16, .v17)) { $0.view.backgroundColor = .clear }
+            .onTapGesture {
+                hideKeyboard()
+            }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .background(Image("paper"))
+        .onAppear(perform: initializeFields)
+        .introspect(.viewController, on: .iOS(.v16, .v17)) { $0.view.backgroundColor = .clear }
     }
 
     private var categorySection: some View {
@@ -75,8 +77,6 @@ struct editView: View {
             }
         }
     }
-
-    
 
     private var titleField: some View {
         HStack {
@@ -165,6 +165,14 @@ struct editView: View {
     }
 }
 
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil, from: nil, for: nil
+        )
+    }
+}
 
 #Preview {
     @State var dummy = Dats(category: "기타", title: "테스트", content: "내용", level: 0.50)
