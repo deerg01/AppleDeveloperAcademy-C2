@@ -78,9 +78,9 @@ extension Cats {
         guard cats.isEmpty else { return }
 
         let defaults: [Cats] = [
-            Cats(name: "공부", color: ".c1"),
-            Cats(name: "취미", color: ".c3"),
-            Cats(name: "건강", color: ".c6"),
+            Cats(name: "건강", color: ".c1"),
+            Cats(name: "공부", color: ".c5"),
+            Cats(name: "취미", color: ".c6"),
             Cats(name: "기타", color: ".c7"),
 //            Cats(name: "교류", color: ".picRed"),
 //            Cats(name: "지울 항목", color: ".picYellow"),

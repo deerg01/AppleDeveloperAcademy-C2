@@ -82,7 +82,6 @@ struct controlbox: View {
                         Color(red: 0.31, green: 0.29, blue: 0.45),
                         lineWidth: 1
                     )
-
             )
         }
     }
