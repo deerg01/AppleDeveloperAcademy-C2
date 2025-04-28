@@ -77,7 +77,7 @@ struct delView: View {
             )
             .scrollContentBackground(.hidden)
 
-            .alert("휴지통을 비우시겠습니까?", isPresented: $delAlert) {
+            .alert("쓰레기통을 비우시겠습니까?", isPresented: $delAlert) {
                 Button("삭제", role: .destructive) {
                     emptyTrash()
                 }
@@ -85,12 +85,12 @@ struct delView: View {
             } message: {
                 Text("이 동작은 돌이킬 수 없습니다.")
             }
-            .alert("휴지통은 비어있습니다", isPresented: $emptAlert) {
+            .alert("쓰레기통은 비어있습니다", isPresented: $emptAlert) {
                 Button("확인", role: .cancel) {}
             }
 
         }
-        .navigationTitle("휴지통")
+        .navigationTitle("쓰레기통")
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button(role: .destructive) {
